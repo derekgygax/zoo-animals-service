@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Enum, String, Date, DateTime, func
+from sqlalchemy import Column, Enum, String, Date, DateTime, func, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, validates
 from uuid import uuid4
@@ -17,6 +17,9 @@ from app.models.breeding import Breeding
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
 
+#TODO is the relationship for breeding, litter, and offspring right!!
+
+
 
 # NOTE!!:
 #   You do NOT need name to define the column name unless the 
@@ -32,7 +35,9 @@ class Animal(Base):
     dob = Column(Date, nullable=False, name="dob")
     gender = Column(Enum(GENDER), nullable=False, name="gender")
     health = Column(Enum(HEALTH), nullable=False, name="health")
-    acquisition_date = Column(Date, nullable=False, name="acquisition_date")
+    # TODO with acquisition and litter .. they could be in conflict
+    acquisition_date = Column(Date, nullable=True, name="acquisition_date")
+    litter_id = Column(UUID(as_uuid=True), ForeignKey("litter.id"), nullable=True)
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
@@ -47,8 +52,9 @@ class Animal(Base):
     # Relationships to breeding (self-referential many-to-many BUT also many-to-one)
     breeding_parent_1 = relationship("Breeding", foreign_keys=[Breeding.parent_1_id], back_populates="parent_1")
     breeding_parent_2 = relationship("Breeding", foreign_keys=[Breeding.parent_2_id], back_populates="parent_2")
-    breeding_offspring = relationship("Breeding", foreign_keys=[Breeding.offspring_id], back_populates="offspring")
 
+    # Relationship to litter (many-to-one)
+    litter = relationship("Litter", foreign_keys=[litter_id], back_populates="offspring")
 
     @validates('created_at')
     def validate_created_at(self, key, value):

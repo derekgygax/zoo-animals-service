@@ -6,6 +6,7 @@ from app.models.animal import Animal
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
 from app.models.breeding import Breeding
+from app.models.litter import Litter
 
 # Other routes
 # from routers.posts import router as posts_router

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Enum, String, Date, DateTime, func, UniqueConstraint, ForeignKey
+from sqlalchemy import Column, String, DateTime, func, UniqueConstraint, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, validates
 from uuid import uuid4
@@ -8,14 +8,16 @@ import pytz
 # Local
 from app.database import Base
 
+#TODO is the relationship for breeding, litter, and offspring right!!
+
 class Breeding(Base):
     __tablename__ = "breeding"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, name="id")
     parent_1_id = Column(UUID(as_uuid=True), ForeignKey("animal.id", ondelete="RESTRICT"), nullable=False, name="parent_1_id")
     parent_2_id = Column(UUID(as_uuid=True), ForeignKey("animal.id", ondelete="RESTRICT"), nullable=False, name="parent_2_id")
-    offspring_id = Column(UUID(as_uuid=True), ForeignKey("animal.id", ondelete="RESTRICT"), nullable=False, name="offspring_id")
     occurred_at = Column(DateTime(timezone=True), nullable=False, name="occurred_at")
+    description = Column(String(1000), nullable=True)
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
@@ -24,7 +26,10 @@ class Breeding(Base):
     # Relationships back to Animal
     parent_1 = relationship("Animal", foreign_keys=[parent_1_id], back_populates="breeding_parent_1")
     parent_2 = relationship("Animal", foreign_keys=[parent_2_id], back_populates="breeding_parent_2")
-    offspring = relationship("Animal", foreign_keys=[offspring_id], back_populates="breeding_offspring")
+
+    # Relationship to Litter
+    litter = relationship("Litter", back_populates="breeding", cascade="all, delete-orphan")
+
 
     @validates('created_at')
     def validate_created_at(self, key, value):
@@ -35,7 +40,7 @@ class Breeding(Base):
     
     # Composite unique constraint
     __table_args__ = (
-        UniqueConstraint('parent_1_id', 'parent_2_id', 'offspring_id', name='unique_breeding_combination'),
+        UniqueConstraint('parent_1_id', 'parent_2_id', name='unique_breeding_combination'),
     )
 
 # TODO FOR RETRIEVING THE TIMEZONE!!
