@@ -72,7 +72,7 @@ Make sure you have the following installed:
 zoo-animals-service/
 ├── app/
 │   ├── models/        # Database models
-│   ├── routes/        # API routes
+│   ├── routers/        # API routes
 │   ├── schemas/       # Pydantic schemas
 │   ├── services/      # Business logic
 │   ├── __init__.py    # Package initialization
