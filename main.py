@@ -2,8 +2,10 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 
 # DB models
-# from models.post import Post
-# from models.comment import Comment
+from app.models.animal import Animal
+from app.models.event import Event
+from app.models.medical_record import MedicalRecord
+from app.models.breeding import Breeding
 
 # Other routes
 # from routers.posts import router as posts_router

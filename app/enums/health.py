@@ -1,0 +1,9 @@
+from enum import Enum
+
+class HEALTH(str, Enum):
+    HEALTHY = "HEALTHY"
+    SICK = "SICK"
+    UNDER_OBSERVATION = "UNDER_OBSERVATION"
+    INJURED = "INJURED"
+    RECOVERING = "RECOVERING"
+    DECEASED = "DECEASED"
