@@ -9,8 +9,7 @@ from app.models.breeding import Breeding
 from app.models.litter import Litter
 
 # Other routes
-# from routers.posts import router as posts_router
-# from routers.comments import router as comments_router
+from app.routers.animals import router as animals_router
 
 # Load .env variables in the app
 load_dotenv()
@@ -18,8 +17,7 @@ load_dotenv()
 app = FastAPI()
 
 # Register the other routers
-# app.include_router(posts_router)
-# app.include_router(comments_router)
+app.include_router(animals_router)
 
 @app.get("/")
 def root():
