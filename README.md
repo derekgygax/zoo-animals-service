@@ -109,5 +109,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 The repository for this project is hosted at: [https://github.com/derekgygax/zoo-animals-service.git](https://github.com/derekgygax/zoo-animals-service.git)
 ```
-
-This README is now specific to your **`zoo-animals-service`** and ready for direct use.
