@@ -16,3 +16,6 @@ __pycache__/
 
 # Help file
 HELP.md
+
+# DS_Store
+.DS_Store
