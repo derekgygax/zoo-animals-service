@@ -13,13 +13,8 @@ from app.enums.specie import SPECIE
 from app.database import Base
 
 # Other models
-from app.models.breeding import Breeding
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
-
-#TODO is the relationship for breeding, litter, and offspring right!!
-
-
 
 # NOTE!!:
 #   You do NOT need name to define the column name unless the 
@@ -37,7 +32,6 @@ class Animal(Base):
     health = Column(Enum(HEALTH), nullable=False, name="health")
     # TODO with acquisition and litter .. they could be in conflict
     acquisition_date = Column(Date, nullable=True, name="acquisition_date")
-    litter_id = Column(UUID(as_uuid=True), ForeignKey("litter.id"), nullable=True)
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
@@ -48,13 +42,6 @@ class Animal(Base):
 
     # Relationship to events (One-to-Many)
     events = relationship("Event", foreign_keys=[Event.animal_id], back_populates="animal", cascade="all, delete-orphan")
-
-    # Relationships to breeding (self-referential many-to-many BUT also many-to-one)
-    breeding_parent_1 = relationship("Breeding", foreign_keys=[Breeding.parent_1_id], back_populates="parent_1")
-    breeding_parent_2 = relationship("Breeding", foreign_keys=[Breeding.parent_2_id], back_populates="parent_2")
-
-    # Relationship to litter (many-to-one)
-    litter = relationship("Litter", foreign_keys=[litter_id], back_populates="offspring")
 
     @validates('created_at')
     def validate_created_at(self, key, value):

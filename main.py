@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 from app.models.animal import Animal
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
-from app.models.breeding import Breeding
-from app.models.litter import Litter
 
 # Other routes
 from app.routers.animals import router as animals_router

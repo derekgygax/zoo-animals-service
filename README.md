@@ -1,13 +1,13 @@
 # Zoo Animals Service
 
-This is the **Animals API** for managing animal-related data in the zoo management system. Built with **FastAPI**, it handles operations such as animal records, medical histories, events, and breeding data. It is part of a larger microservices-based architecture for zoo management.
+This is the **Animals API** for managing animal-related data in the zoo management system. Built with **FastAPI**, it handles operations such as animal records, medical histories, and events. It is part of a larger microservices-based architecture for zoo management.
 
 ---
 
 ## Features
 
 - CRUD operations for animals.
-- Management of medical records, breeding, and significant events.
+- Management of medical records, and significant events.
 - Integration with a relational database (e.g., PostgreSQL).
 - Role-based access control (RBAC) with JWT authentication.
 - API documentation via Swagger UI and ReDoc.

@@ -13,8 +13,6 @@ from app.database import Base
 from app.models.animal import Animal
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
-from app.models.breeding import Breeding
-from app.models.litter import Litter
 
 # Load .env variables
 # the file exists one directory up
