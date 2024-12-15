@@ -1,6 +1,6 @@
 from enum import Enum
 
-class HEALTH(str, Enum):
+class HEALTH_TYPE(str, Enum):
     HEALTHY = "HEALTHY"
     SICK = "SICK"
     UNDER_OBSERVATION = "UNDER_OBSERVATION"

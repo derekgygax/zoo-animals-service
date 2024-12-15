@@ -8,7 +8,7 @@ import pytz
 
 # Local
 from app.enums.gender import GENDER
-from app.enums.health import HEALTH
+from app.enums.health_type import HEALTH_TYPE
 from app.enums.specie import SPECIE
 from app.database import Base
 
@@ -29,8 +29,7 @@ class Animal(Base):
     specie = Column(Enum(SPECIE), nullable=False, name="specie")
     dob = Column(Date, nullable=False, name="dob")
     gender = Column(Enum(GENDER), nullable=False, name="gender")
-    health = Column(Enum(HEALTH), nullable=False, name="health")
-    # TODO with acquisition and litter .. they could be in conflict
+    health = Column(Enum(HEALTH_TYPE), nullable=False, name="health")
     acquisition_date = Column(Date, nullable=True, name="acquisition_date")
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future

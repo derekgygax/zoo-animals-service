@@ -5,7 +5,7 @@ from datetime import date, datetime
 
 # local
 from app.enums.gender import GENDER
-from app.enums.health import HEALTH
+from app.enums.health_type import HEALTH_TYPE
 from app.enums.specie import SPECIE
 
 class AnimalBase(BaseModel):
@@ -13,9 +13,8 @@ class AnimalBase(BaseModel):
 	specie: SPECIE
 	dob: date
 	gender: GENDER
-	health: HEALTH
+	health: HEALTH_TYPE
 	acquisition_date: Optional[date] = None
-	litter_id: Optional[UUID] = None
 	
 
 class Animal(AnimalBase):

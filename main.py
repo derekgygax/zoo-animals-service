@@ -8,14 +8,21 @@ from app.models.medical_record import MedicalRecord
 
 # Other routes
 from app.routers.animals import router as animals_router
+from app.routers.enums import router as enums_router
 
 # Load .env variables in the app
 load_dotenv()
 
+# IMPORTANT!!!
+# This is accessed by 127.0.0.1 as an API on the front end. NOT localhost
+
 app = FastAPI()
 
 # Register the other routers
+## amimal router
 app.include_router(animals_router)
+## enums router - used for building animals on the front end
+app.include_router(enums_router)
 
 @app.get("/")
 def root():
