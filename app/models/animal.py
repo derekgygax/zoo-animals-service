@@ -27,10 +27,10 @@ class Animal(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, name="id")
     name = Column(String(100), nullable=False, name="name")
     specie = Column(Enum(SPECIE), nullable=False, name="specie")
-    dob = Column(Date, nullable=False, name="dob")
     gender = Column(Enum(GENDER), nullable=False, name="gender")
     health = Column(Enum(HEALTH_TYPE), nullable=False, name="health")
-    acquisition_date = Column(Date, nullable=True, name="acquisition_date")
+    dob = Column(Date, nullable=False, name="dob")
+    acquisition_date = Column(Date, nullable=False, name="acquisition_date")
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
