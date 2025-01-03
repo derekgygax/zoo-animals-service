@@ -1,21 +1,14 @@
 
-from sqlalchemy import Column, Enum, String, Date, DateTime, func, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, DateTime, func
 from sqlalchemy.orm import relationship, validates
-from uuid import uuid4
 from datetime import datetime
 import pytz
 
 # Local
-from app.enums.gender import GENDER
-from app.enums.health_type import HEALTH_TYPE
-from app.enums.specie import SPECIE
 from app.database import Base
 
 # Other models
 from app.models.animal import Animal
-from app.models.event import Event
-from app.models.medical_record import MedicalRecord
 
 class Specie(Base):
     __tablename__ = "specie"
