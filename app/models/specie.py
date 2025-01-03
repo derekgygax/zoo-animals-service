@@ -13,37 +13,22 @@ from app.enums.specie import SPECIE
 from app.database import Base
 
 # Other models
+from app.models.animal import Animal
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
 
-# NOTE!!:
-#   You do NOT need name to define the column name unless the 
-#   the column name is different than the attribute
-#   This is just there to show how
+class Specie(Base):
+    __tablename__ = "specie"
 
-class Animal(Base):
-    __tablename__ = "animal"
-
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, name="id")
-    name = Column(String(100), nullable=False, name="name")
-    specie_name = Column(String(100), ForeignKey("specie.name", ondelete="RESTRICT"), nullable=False, name="specie_name")
-    gender = Column(Enum(GENDER), nullable=False, name="gender")
-    health = Column(Enum(HEALTH_TYPE), nullable=False, name="health")
-    dob = Column(Date, nullable=False, name="dob")
-    acquisition_date = Column(Date, nullable=False, name="acquisition_date")
+    name = Column(String(100), primary_key=True, nullable=False, name="name")
+    description = Column(String(500), nullable=False, name="specie")
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), onupdate=func.now(), nullable=False, name="updated_at")
 
-    # Relations back to specie
-    specie = relationship("Specie", foreign_keys=[specie_name], back_populates="animals")
-
-	# Relationship to medical_record (One-to-Many)
-    medical_records = relationship("MedicalRecord", foreign_keys=[MedicalRecord.animal_id], back_populates="animal", cascade="all, delete-orphan")
-
-    # Relationship to events (One-to-Many)
-    events = relationship("Event", foreign_keys=[Event.animal_id], back_populates="animal", cascade="all, delete-orphan")
+    # Relationship to animals (One-to-Many)
+    animals = relationship("Animal", foreign_keys=[Animal.specie_name], back_populates="specie", cascade="save-update")
 
     @validates('created_at')
     def validate_created_at(self, key, value):
