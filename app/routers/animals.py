@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 
 # services
-from app.services.animal import get_all_animals, get_all_animal_ids, add_animal as add_animal_service, get_animal_base_by_id as get_animal_base_by_id_service, update_animal as update_animal_service
+from app.services.animals import get_all_animals, get_all_animal_ids, add_animal as add_animal_service, get_animal_base_by_id as get_animal_base_by_id_service, update_animal as update_animal_service
 
 # schemas
 from app.schemas.animal.animal import Animal
@@ -39,7 +39,6 @@ async def add_animal(
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	print(animal)
 	add_animal_service(db = db, animal = animal)
 	return
 

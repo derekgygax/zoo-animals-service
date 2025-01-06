@@ -9,7 +9,7 @@ from app.enums.specie import SPECIE
 
 class AnimalBase(BaseModel):
 	name: str = Field(..., max_length=100, description="The name of the animal", title="Name")
-	specie: SPECIE = Field(..., title="Specie")
+	specie_name: str = Field(..., max_length=100, description="The name of the specie of the animal", title="Specie Name")
 	gender: GENDER = Field(..., title="Gender")
 	health: HEALTH_TYPE = Field(..., title="Health")
 	dob: date = Field(..., title="DOB")

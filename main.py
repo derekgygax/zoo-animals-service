@@ -5,9 +5,11 @@ from dotenv import load_dotenv
 from app.models.animal import Animal
 from app.models.event import Event
 from app.models.medical_record import MedicalRecord
+from app.models.specie import Specie
 
 # Other routes
 from app.routers.animals import router as animals_router
+from app.routers.species import router as species_router
 
 # Load .env variables in the app
 load_dotenv()
@@ -20,6 +22,7 @@ app = FastAPI()
 # Register the other routers
 ## amimal router
 app.include_router(animals_router)
+app.include_router(species_router)
 
 @app.get("/")
 def root():

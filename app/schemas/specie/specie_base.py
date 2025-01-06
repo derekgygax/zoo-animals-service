@@ -1,6 +1,9 @@
 from pydantic import BaseModel, Field
 from datetime import date
 
+
+# TODO specie base should be specie_description
+# TODO NOT HAVE THE NAME!!!!! that is the primary key!!
 class SpecieBase(BaseModel):
 	name: str = Field(..., max_length=100, description="The name of the specie", title="Specie Name")
 	description: str = Field(..., max_length=500, description="A short description about the specie", title="Specie Description")
