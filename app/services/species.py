@@ -30,7 +30,7 @@ def get_all_species(db: Session) -> List[Specie]:
 def get_all_species_base(db: Session) -> List[SpecieBase]:
     species = db.query(Specie).options(
         load_only(
-            Specie.name,
+            Specie.specie,
             Specie.description
         )
     ).all()
