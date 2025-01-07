@@ -13,15 +13,15 @@ from app.models.animal import Animal
 class Specie(Base):
     __tablename__ = "specie"
 
-    name = Column(String(100), primary_key=True, nullable=False, name="name")
-    description = Column(String(500), nullable=False, name="specie")
+    specie = Column(String(100), primary_key=True, nullable=False, name="specie")
+    description = Column(String(500), nullable=False, name="description")
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), nullable=False, name="created_at")
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), onupdate=func.now(), nullable=False, name="updated_at")
 
     # Relationship to animals (One-to-Many)
-    animals = relationship("Animal", foreign_keys=[Animal.specie_name], back_populates="specie", cascade="save-update")
+    animals = relationship("Animal", foreign_keys=[Animal.specie], back_populates="specie_relationship", cascade="save-update")
 
     @validates('created_at')
     def validate_created_at(self, key, value):
