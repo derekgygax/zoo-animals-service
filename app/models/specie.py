@@ -23,6 +23,11 @@ class Specie(Base):
     # Relationship to animals (One-to-Many)
     animals = relationship("Animal", foreign_keys=[Animal.specie], back_populates="specie_relationship", cascade="save-update")
 
+    @validates('specie')
+    def validate_specie(self, key, value):
+        # Force lowercase before insertion
+        return value.lower()
+
     @validates('created_at')
     def validate_created_at(self, key, value):
         # Raise an error if `created_at` is attempted to be changed
