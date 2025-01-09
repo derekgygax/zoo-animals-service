@@ -17,13 +17,13 @@ from app.schemas.specie.specie_base import SpecieBase
 # TODO add a UUID if you think you need to
 
 # Check if a specie exists
-# def _validate_specie_exists(db: Session, specie_name: str) -> None:
-#     if not db.query(Specie).filter_by(name=specie_name).first():
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"Specie '{specie_name}' does not exist."
-#         )
-
+def _validate_specie_exists(db: Session, specie: str) -> None:
+    if not db.query(Specie).filter_by(specie=specie).first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Specie '{specie}' does not exist."
+        )
+    
 def get_all_species(db: Session) -> List[Specie]:
     return db.query(Specie).all()
 
@@ -58,9 +58,9 @@ def add_specie(db: Session, specie: SpecieBase) -> None:
     return
 
 # TODO specie base should be specie_description
-def update_specie(db: Session, specie_name: str, specie: SpecieBase) -> None:
+def update_specie(db: Session, specie_key: str, specie: SpecieBase) -> None:
 
-    db_specie = db.query(Specie).filter(Specie.name == specie_name).first()
+    db_specie = db.query(Specie).filter(Specie.name == specie_key).first()
     if db_specie is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

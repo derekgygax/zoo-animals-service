@@ -51,12 +51,12 @@ async def add_specie(
 	add_specie_service(db = db, specie = specie)
 	return
 
-@router.post("/{specie_name}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
+@router.post("/{specie_key}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
 async def update_animal(
-	specie_name: str,
+	specie_key: str,
 	specie: Specie,
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	update_specie_service(db=db, specie_name=specie_name, specie=specie)
+	update_specie_service(db=db, specie_key=specie_key, specie=specie)
 	return

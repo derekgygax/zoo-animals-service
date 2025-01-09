@@ -12,13 +12,8 @@ from app.models.specie import Specie
 from app.schemas.animal.animal import AnimalBase
 from app.schemas.animal.animal_identifier import AnimalIdentifier
 
-# Check if a specie exists
-def _validate_specie_exists(db: Session, specie_name: str) -> None:
-    if not db.query(Specie).filter_by(name=specie_name).first():
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Specie '{specie_name}' does not exist."
-        )
+# services
+from app.services.species import _validate_specie_exists
 
 def get_all_animals(db: Session) -> List[Animal]:
     return db.query(Animal).all()
@@ -29,7 +24,7 @@ def get_all_animal_ids(db: Session) -> List[AnimalIdentifier]:
         load_only(
             Animal.id,
             Animal.name,
-            Animal.specie_name
+            Animal.specie
         )
     ).all()
     return [
@@ -41,7 +36,7 @@ def get_animal_base_by_id(db: Session, animalId: UUID) -> AnimalBase:
     animal = db.query(Animal).filter(Animal.id == animalId).options(
         load_only(
             Animal.name,
-            Animal.specie_name,
+            Animal.specie,
             Animal.gender,
             Animal.health,
             Animal.dob,
@@ -59,7 +54,7 @@ def get_animal_base_by_id(db: Session, animalId: UUID) -> AnimalBase:
 
 def add_animal(db: Session, animal: AnimalBase) -> None:
     # Check if the specie exists
-    _validate_specie_exists(db, animal.specie_name)
+    _validate_specie_exists(db, animal.specie)
     
     db_animal = Animal(**animal.model_dump())
     # Print the stuff in db_post
@@ -71,7 +66,7 @@ def add_animal(db: Session, animal: AnimalBase) -> None:
 
 def update_animal(db: Session, animalId: UUID, animal: AnimalBase) -> None:
     # Check if the specie exists
-    _validate_specie_exists(db, animal.specie_name)
+    _validate_specie_exists(db, animal.specie)
 
     db_animal = db.query(Animal).filter(Animal.id == animalId).first()
     if db_animal is None:
@@ -82,7 +77,7 @@ def update_animal(db: Session, animalId: UUID, animal: AnimalBase) -> None:
 
     # Update fields
     db_animal.name = animal.name
-    db_animal.specie_name = animal.specie_name
+    db_animal.specie = animal.specie
     db_animal.gender = animal.gender
     db_animal.health = animal.health
     db_animal.dob = animal.dob
