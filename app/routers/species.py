@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 
 # services
-from app.services.species import get_all_species, add_specie as add_specie_service, update_specie as update_specie_service, get_all_species_base
+from app.services.species import (
+    get_all_species,
+    add_specie as add_specie_service,
+    update_specie as update_specie_service,
+    get_all_species_base,
+    get_specie_keys as get_specie_keys_service,
+)
 
 # schemas
 from app.schemas.specie.specie_base import SpecieBase
@@ -23,6 +29,10 @@ router = APIRouter(prefix="/api/v1/species")
 @router.get("/", tags=["species"], response_model=List[Specie])
 async def get_species(db: Session = Depends(get_db)):
 	return get_all_species(db=db)
+
+@router.get("/keys", tags=["species"], response_model=List[str])
+async def get_specie_keys(db:Session = Depends(get_db)):
+	return get_specie_keys_service(db=db)
 
 @router.get("/base", tags=["species"], response_model=List[SpecieBase])
 async def get_species_base(db: Session = Depends(get_db)):

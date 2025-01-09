@@ -27,6 +27,16 @@ from app.schemas.specie.specie_base import SpecieBase
 def get_all_species(db: Session) -> List[Specie]:
     return db.query(Specie).all()
 
+def get_specie_keys(db: Session) -> List[str]:
+    species =  db.query(Specie).options(
+        load_only(
+            Specie.specie
+        )
+    ).all()
+    return [
+        specie.specie for specie in species
+    ]
+
 def get_all_species_base(db: Session) -> List[SpecieBase]:
     species = db.query(Specie).options(
         load_only(
