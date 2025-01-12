@@ -32,11 +32,11 @@ def get_all_animal_ids(db: Session) -> List[AnimalIdentifier]:
     ]
 
 # Get the base information for an animal based on the id
-def get_animal_base_by_id(db: Session, animalId: UUID) -> AnimalBase:
-    animal = db.query(Animal).filter(Animal.id == animalId).options(
+def get_animal_base_by_id(db: Session, animal_id: UUID) -> AnimalBase:
+    animal = db.query(Animal).filter(Animal.id == animal_id).options(
         load_only(
             Animal.name,
-            Animal.specie,
+            Animal.specie_id,
             Animal.gender,
             Animal.health,
             Animal.dob,
@@ -54,7 +54,7 @@ def get_animal_base_by_id(db: Session, animalId: UUID) -> AnimalBase:
 
 def add_animal(db: Session, animal: AnimalBase) -> None:
     # Check if the specie exists
-    _validate_specie_exists(db, animal.specie)
+    _validate_specie_exists(db, animal.specie_id)
     
     db_animal = Animal(**animal.model_dump())
     # Print the stuff in db_post
@@ -64,11 +64,11 @@ def add_animal(db: Session, animal: AnimalBase) -> None:
     db.refresh(db_animal)
     return
 
-def update_animal(db: Session, animalId: UUID, animal: AnimalBase) -> None:
+def update_animal(db: Session, animal_id: UUID, animal: AnimalBase) -> None:
     # Check if the specie exists
-    _validate_specie_exists(db, animal.specie)
+    _validate_specie_exists(db, animal.specie_id)
 
-    db_animal = db.query(Animal).filter(Animal.id == animalId).first()
+    db_animal = db.query(Animal).filter(Animal.id == animal_id).first()
     if db_animal is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -77,7 +77,7 @@ def update_animal(db: Session, animalId: UUID, animal: AnimalBase) -> None:
 
     # Update fields
     db_animal.name = animal.name
-    db_animal.specie = animal.specie
+    db_animal.specie_id = animal.specie_id
     db_animal.gender = animal.gender
     db_animal.health = animal.health
     db_animal.dob = animal.dob

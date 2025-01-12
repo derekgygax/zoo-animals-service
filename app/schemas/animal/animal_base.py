@@ -8,8 +8,8 @@ from app.enums.specie import SPECIE
 
 
 class AnimalBase(BaseModel):
-	name: str = Field(..., max_length=100, description="The name of the animal", title="Name")
-	specie: str = Field(..., max_length=100, description="The name of the specie of the animal", title="Specie", format="selector")
+	name: str = Field(..., title="Name", max_length=100, description="The name of the animal")
+	specie_id: str = Field(..., title="Specie", format="selector", max_length=100, description="The type of species, such as 'dog' or 'cat'")
 	gender: GENDER = Field(..., title="Gender")
 	health: HEALTH_TYPE = Field(..., title="Health")
 	dob: date = Field(..., title="DOB")

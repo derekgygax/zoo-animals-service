@@ -17,30 +17,30 @@ from app.schemas.specie.specie_base import SpecieBase
 # TODO add a UUID if you think you need to
 
 # Check if a specie exists
-def _validate_specie_exists(db: Session, specie: str) -> None:
-    if not db.query(Specie).filter_by(specie=specie).first():
+def _validate_specie_exists(db: Session, specie_id: str) -> None:
+    if not db.query(Specie).filter_by(id=specie_id).first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Specie '{specie}' does not exist."
+            detail=f"Specie '{specie_id}' does not exist."
         )
     
 def get_all_species(db: Session) -> List[Specie]:
     return db.query(Specie).all()
 
-def get_specie_keys(db: Session) -> List[str]:
+def get_specie_ids(db: Session) -> List[str]:
     species =  db.query(Specie).options(
         load_only(
-            Specie.specie
+            Specie.id
         )
     ).all()
     return [
-        specie.specie for specie in species
+        specie.id for specie in species
     ]
 
 def get_all_species_base(db: Session) -> List[SpecieBase]:
     species = db.query(Specie).options(
         load_only(
-            Specie.specie,
+            Specie.id,
             Specie.description
         )
     ).all()
@@ -58,9 +58,9 @@ def add_specie(db: Session, specie: SpecieBase) -> None:
     return
 
 # TODO specie base should be specie_description
-def update_specie(db: Session, specie_key: str, specie: SpecieBase) -> None:
+def update_specie(db: Session, specie_id: str, specie: SpecieBase) -> None:
 
-    db_specie = db.query(Specie).filter(Specie.name == specie_key).first()
+    db_specie = db.query(Specie).filter(Specie.id == specie_id).first()
     if db_specie is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 
 # services
-from app.services.animals import get_all_animals, get_all_animal_ids, add_animal as add_animal_service, get_animal_base_by_id as get_animal_base_by_id_service, update_animal as update_animal_service
+from app.services.animals import (
+	get_all_animals,
+	get_all_animal_ids, 
+	add_animal as add_animal_service, 
+	get_animal_base_by_id as get_animal_base_by_id_service, 
+	update_animal as update_animal_service
+)
 
 # schemas
 from app.schemas.animal.animal import Animal
@@ -27,9 +33,9 @@ async def get_animals(db: Session = Depends(get_db)):
 async def get_animals(db: Session = Depends(get_db)):
 	return get_all_animal_ids(db=db)
 
-@router.get("/{animalId}", tags=["animals"], response_model=AnimalBase)
-async def get_animal_base_by_id(animalId: UUID, db: Session = Depends(get_db)):
-	return get_animal_base_by_id_service(db=db, animalId=animalId)
+@router.get("/{animal_id}", tags=["animals"], response_model=AnimalBase)
+async def get_animal_base_by_id(animal_id: UUID, db: Session = Depends(get_db)):
+	return get_animal_base_by_id_service(db=db, animal_id=animal_id)
 
 # TODO with auth
 # @router.post("/", tags=["animal"], status_code=status.HTTP_201_CREATED response_model=None, dependencies=[Depends(check_role([ROLE.ADMIN]))])
@@ -42,12 +48,12 @@ async def add_animal(
 	add_animal_service(db = db, animal = animal)
 	return
 
-@router.post("/{animalId}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
+@router.post("/{animal_id}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
 async def update_animal(
-	animalId: UUID,
+	animal_id: UUID,
 	animal: AnimalBase,
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	update_animal_service(db=db, animalId=animalId, animal=animal)
+	update_animal_service(db=db, animal_id=animal_id, animal=animal)
 	return
