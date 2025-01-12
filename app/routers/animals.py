@@ -48,7 +48,7 @@ async def add_animal(
 	add_animal_service(db = db, animal = animal)
 	return
 
-@router.post("/{animal_id}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
+@router.put("/{animal_id}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
 async def update_animal(
 	animal_id: UUID,
 	animal: AnimalBase,
