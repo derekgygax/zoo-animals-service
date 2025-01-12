@@ -26,7 +26,7 @@ class Animal(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, name="id")
     name = Column(String(100), nullable=False, name="name")
-    specie = Column(String(100), ForeignKey("specie.specie", ondelete="RESTRICT"), nullable=False, name="specie")
+    specie_id = Column(String(100), ForeignKey("specie.id", ondelete="RESTRICT"), nullable=False, name="specie_id")
     gender = Column(Enum(GENDER), nullable=False, name="gender")
     health = Column(Enum(HEALTH_TYPE), nullable=False, name="health")
     dob = Column(Date, nullable=False, name="dob")
@@ -37,7 +37,7 @@ class Animal(Base):
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), onupdate=func.now(), nullable=False, name="updated_at")
 
     # Relations back to specie
-    specie_relationship = relationship("Specie", foreign_keys=[specie], back_populates="animals")
+    specie = relationship("Specie", foreign_keys=[specie_id], back_populates="animals")
 
 	# Relationship to medical_record (One-to-Many)
     medical_records = relationship("MedicalRecord", foreign_keys=[MedicalRecord.animal_id], back_populates="animal", cascade="all, delete-orphan")

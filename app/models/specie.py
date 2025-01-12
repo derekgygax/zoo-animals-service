@@ -13,7 +13,7 @@ from app.models.animal import Animal
 class Specie(Base):
     __tablename__ = "specie"
 
-    specie = Column(String(100), primary_key=True, nullable=False, name="specie")
+    id = Column(String(100), primary_key=True, nullable=False, name="id")
     description = Column(String(500), nullable=False, name="description")
 
     # Timestamps - keep track of when entry was created and updated. maybe need in future
@@ -21,9 +21,9 @@ class Specie(Base):
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(pytz.UTC), onupdate=func.now(), nullable=False, name="updated_at")
 
     # Relationship to animals (One-to-Many)
-    animals = relationship("Animal", foreign_keys=[Animal.specie], back_populates="specie_relationship", cascade="save-update")
+    animals = relationship("Animal", back_populates="specie", cascade="save-update")
 
-    @validates('specie')
+    @validates('id')
     def validate_specie(self, key, value):
         # Force lowercase before insertion
         return value.lower()
