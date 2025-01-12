@@ -2,6 +2,7 @@ from sqlalchemy.orm import load_only
 from typing import List
 # from uuid import UUID
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 
 # models
@@ -52,9 +53,16 @@ def add_specie(db: Session, specie: SpecieBase) -> None:
     db_specie = Specie(**specie.model_dump())
     # Print the stuff in db_post
     # print(vars(db_specie))
-    db.add(db_specie)
-    db.commit()
-    db.refresh(db_specie)
+    try:
+        db.add(db_specie)
+        db.commit()
+        db.refresh(db_specie)
+    except IntegrityError:
+        db.rollback()  # Rollback the transaction in case of an error
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Specie with ID '{db_specie.id}' already exists."
+        )
     return
 
 # TODO specie base should be specie_description
