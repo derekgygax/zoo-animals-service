@@ -9,7 +9,7 @@ from app.database import get_db
 # services
 from app.services.animals import (
 	get_all_animals,
-	get_all_animal_ids, 
+	get_all_animal_identifiers, 
 	add_animal as add_animal_service, 
 	get_animal_base_by_id as get_animal_base_by_id_service, 
 	update_animal as update_animal_service
@@ -29,9 +29,9 @@ router = APIRouter(prefix="/api/v1/animals")
 async def get_animals(db: Session = Depends(get_db)):
 	return get_all_animals(db=db)
 
-@router.get("/ids", tags=["animals"], response_model=List[AnimalIdentifier])
-async def get_animals(db: Session = Depends(get_db)):
-	return get_all_animal_ids(db=db)
+@router.get("/identifiers", tags=["animals"], response_model=List[AnimalIdentifier])
+async def get_animal_ids(db: Session = Depends(get_db)):
+	return get_all_animal_identifiers(db=db)
 
 @router.get("/{animal_id}", tags=["animals"], response_model=AnimalBase)
 async def get_animal_base_by_id(animal_id: UUID, db: Session = Depends(get_db)):

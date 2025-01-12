@@ -19,12 +19,12 @@ def get_all_animals(db: Session) -> List[Animal]:
     return db.query(Animal).all()
 
 # Get an identification portion for all the animals
-def get_all_animal_ids(db: Session) -> List[AnimalIdentifier]:
+def get_all_animal_identifiers(db: Session) -> List[AnimalIdentifier]:
     animals = db.query(Animal).options(
         load_only(
             Animal.id,
             Animal.name,
-            Animal.specie
+            Animal.specie_id
         )
     ).all()
     return [
