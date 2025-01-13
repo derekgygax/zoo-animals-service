@@ -25,9 +25,9 @@ class Specie(Base):
 
     @validates('id')
     def validate_specie(self, key, value):
-        # Force lowercase before insertion
-        return value.lower()
-
+        # Force lowercase, trim, and replace white spaces with underscores
+        return value.strip().lower().replace(" ", "_")
+    
     @validates('created_at')
     def validate_created_at(self, key, value):
         # Raise an error if `created_at` is attempted to be changed
