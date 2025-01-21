@@ -53,7 +53,7 @@ async def add_specie(
 @router.put("/{specie_id}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
 async def update_specie(
 	specie_id: str,
-	specie: Specie,
+	specie: SpecieBase,
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
