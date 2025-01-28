@@ -7,13 +7,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 
 # services
-from app.services.animals import (
-	get_all_animals,
-	get_all_animal_identifiers, 
-	add_animal as add_animal_service, 
-	get_animal_base_by_id as get_animal_base_by_id_service, 
-	update_animal as update_animal_service
-)
+from app.schemas.model_identifier import ModelIdentifier
+from app.services import animals_service
 
 # schemas
 from app.schemas.animal.animal import Animal
@@ -27,15 +22,15 @@ router = APIRouter(prefix="/api/v1/animals")
 
 @router.get("/", tags=["animals"], response_model=List[Animal])
 async def get_animals(db: Session = Depends(get_db)):
-	return get_all_animals(db=db)
+	return animals_service.get_all_animals(db=db)
 
-@router.get("/identifiers", tags=["animals"], response_model=List[AnimalIdentifier])
+@router.get("/identifiers", tags=["animals"], response_model=List[ModelIdentifier])
 async def get_animal_ids(db: Session = Depends(get_db)):
-	return get_all_animal_identifiers(db=db)
+	return animals_service.get_all_animal_identifiers(db=db)
 
 @router.get("/{animal_id}", tags=["animals"], response_model=AnimalBase)
 async def get_animal_base_by_id(animal_id: UUID, db: Session = Depends(get_db)):
-	return get_animal_base_by_id_service(db=db, animal_id=animal_id)
+	return animals_service.get_animal_base_by_id(db=db, animal_id=animal_id)
 
 # TODO with auth
 # @router.post("/", tags=["animal"], status_code=status.HTTP_201_CREATED response_model=None, dependencies=[Depends(check_role([ROLE.ADMIN]))])
@@ -45,7 +40,7 @@ async def add_animal(
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	add_animal_service(db = db, animal = animal)
+	animals_service.add_animal(db = db, animal = animal)
 	return
 
 @router.put("/{animal_id}", tags=["animal"], status_code=status.HTTP_204_NO_CONTENT, response_model=None)
@@ -55,5 +50,5 @@ async def update_animal(
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	update_animal_service(db=db, animal_id=animal_id, animal=animal)
+	animals_service.update_animal(db=db, animal_id=animal_id, animal=animal)
 	return

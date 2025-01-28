@@ -12,6 +12,7 @@ from app.models.specie import Specie
 # schemas
 from app.schemas.animal.animal import AnimalBase
 from app.schemas.animal.animal_identifier import AnimalIdentifier
+from app.schemas.model_identifier import ModelIdentifier
 from app.schemas.specie.specie_base import SpecieBase
 
 # TODO CANNOT CHANGE THE specie name because its the primary key
@@ -38,6 +39,12 @@ def get_specie_ids(db: Session) -> List[str]:
         specie.id for specie in species
     ]
 
+def get_specie_identifiers(db: Session) -> List[ModelIdentifier]:
+    specie_ids = get_specie_ids(db=db)
+    return [
+        ModelIdentifier(id=str(id), label=str(id)) for id in specie_ids
+    ]
+
 def get_all_species_base(db: Session) -> List[SpecieBase]:
     species = db.query(Specie).options(
         load_only(
@@ -48,6 +55,21 @@ def get_all_species_base(db: Session) -> List[SpecieBase]:
     return [
         SpecieBase.model_validate(specie) for specie in species
     ]
+
+def get_specie_base_by_id(db: Session, specie_id: str) -> SpecieBase:
+    specie = db.query(Specie).filter(Specie.id == specie_id).options(
+        load_only(
+            Specie.id,
+            Specie.description
+        )
+    ).first()
+
+    if not specie:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Specie not found"
+        )
+    return SpecieBase.model_validate(specie)
 
 def add_specie(db: Session, specie: SpecieBase) -> None:
     db_specie = Specie(**specie.model_dump())

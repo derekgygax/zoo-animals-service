@@ -13,13 +13,14 @@ from app.schemas.animal.animal import AnimalBase
 from app.schemas.animal.animal_identifier import AnimalIdentifier
 
 # services
-from app.services.species import _validate_specie_exists
+from app.schemas.model_identifier import ModelIdentifier
+from app.services.species_service import _validate_specie_exists
 
 def get_all_animals(db: Session) -> List[Animal]:
     return db.query(Animal).all()
 
 # Get an identification portion for all the animals
-def get_all_animal_identifiers(db: Session) -> List[AnimalIdentifier]:
+def get_all_animal_identifiers(db: Session) -> List[ModelIdentifier]:
     animals = db.query(Animal).options(
         load_only(
             Animal.id,
@@ -28,7 +29,7 @@ def get_all_animal_identifiers(db: Session) -> List[AnimalIdentifier]:
         )
     ).all()
     return [
-        AnimalIdentifier.model_validate(animal) for animal in animals
+        ModelIdentifier(id=str(animal.id), label=f"{animal.name} {animal.specie_id}") for animal in animals
     ]
 
 # Get the base information for an animal based on the id
