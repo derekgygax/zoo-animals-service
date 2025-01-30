@@ -62,6 +62,5 @@ async def update_specie(
 	# current_user: JWT = Depends(get_current_user),
 	db: Session = Depends(get_db)
 ):
-	print("YA")
 	species_service.update_specie(db=db, specie_id=specie_id, specie=specie)
 	return
