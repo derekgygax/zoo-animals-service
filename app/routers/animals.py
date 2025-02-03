@@ -20,7 +20,7 @@ from app.schemas.animal.animal_identifier import AnimalIdentifier
 
 router = APIRouter(prefix="/api/v1/animals")
 
-@router.get("/", tags=["animals"], response_model=List[Animal])
+@router.get("", tags=["animals"], response_model=List[Animal])
 async def get_animals(db: Session = Depends(get_db)):
 	return animals_service.get_all_animals(db=db)
 
@@ -34,7 +34,7 @@ async def get_animal_base_by_id(animal_id: UUID, db: Session = Depends(get_db)):
 
 # TODO with auth
 # @router.post("/", tags=["animal"], status_code=status.HTTP_201_CREATED response_model=None, dependencies=[Depends(check_role([ROLE.ADMIN]))])
-@router.post("/", tags=["animal"], status_code=status.HTTP_201_CREATED, response_model=None)
+@router.post("", tags=["animal"], status_code=status.HTTP_201_CREATED, response_model=None)
 async def add_animal(
 	animal: AnimalBase,
 	# current_user: JWT = Depends(get_current_user),

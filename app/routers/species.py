@@ -21,7 +21,7 @@ from app.schemas.animal.animal_identifier import AnimalIdentifier
 
 router = APIRouter(prefix="/api/v1/species")
 
-@router.get("/", tags=["species"], response_model=List[Specie])
+@router.get("", tags=["species"], response_model=List[Specie])
 async def get_species(db: Session = Depends(get_db)):
 	return species_service.get_all_species(db=db)
 
@@ -44,9 +44,7 @@ async def get_species_base(
 ):
 	return species_service.get_specie_base_by_id(db=db, specie_id=specie_id)
 
-# TODO with auth
-# @router.post("/", tags=["animal"], status_code=status.HTTP_201_CREATED response_model=None, dependencies=[Depends(check_role([ROLE.ADMIN]))])
-@router.post("/", tags=["species"], status_code=status.HTTP_201_CREATED, response_model=None)
+@router.post("", tags=["species"], status_code=status.HTTP_201_CREATED, response_model=None)
 async def add_specie(
 	specie: SpecieBase,
 	# current_user: JWT = Depends(get_current_user),
