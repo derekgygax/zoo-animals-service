@@ -56,13 +56,13 @@ Make sure you have the following installed:
 
 1. Start the development server:
    ```bash
-   uvicorn main:app --reload
+   uvicorn main:app --reload --port 8100
    ```
 
 
 2. Access the API documentation:
-   - Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-   - ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+   - Swagger UI: [http://127.0.0.1:8100/docs](http://127.0.0.1:8100/docs)
+   - ReDoc: [http://127.0.0.1:8100/redoc](http://127.0.0.1:8100/redoc)
 
 ---
 
