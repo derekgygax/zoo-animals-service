@@ -28,7 +28,7 @@ async def get_animals(db: Session = Depends(get_db)):
 async def get_animal_ids(db: Session = Depends(get_db)):
 	return animals_service.get_all_animal_identifiers(db=db)
 
-@router.get("/{animal_id}", tags=["animals"], response_model=AnimalBase)
+@router.get("/{animal_id}/base", tags=["animals"], response_model=AnimalBase)
 async def get_animal_base_by_id(animal_id: UUID, db: Session = Depends(get_db)):
 	return animals_service.get_animal_base_by_id(db=db, animal_id=animal_id)
 
