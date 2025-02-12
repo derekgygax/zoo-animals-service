@@ -17,38 +17,33 @@ This is the **Animals API** for managing animal-related data in the zoo manageme
 ## Requirements
 
 Make sure you have the following installed:
-- Python 3.12.5
-- pip (Python package manager)
+- Python 3.13.1
+- poetry (Python package manager)
 
 ---
 
 ## Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/derekgygax/zoo-animals-service.git
-   cd zoo-animals-service
-   ```
+  ```bash
+  git clone https://github.com/derekgygax/zoo-animals-service.git
+  cd zoo-animals-service
+  ```
 
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+2. Install Dependencies
+Make sure you have **Poetry** installed:
+  ```sh
+  poetry install
+  ```
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Set up environment variables:
-   - Create a `.env` file in the root directory with the necessary configuration.
-     Example:
-     ```
-     DATABASE_URL=postgresql://user:password@localhost:5432/zoo_animals
-     AUTH_SECRET=your_secret_key
-     AUTH_ALGORITHM=your_algorithm
-     ```
+3. Set up environment variables:
+  - Create a `.env` file in the root directory with the necessary configuration.
+    Example:
+    ```
+    DATABASE_URL=postgresql://user:password@localhost:5432/zoo_animals
+    AUTH_SECRET=your_secret_key
+    AUTH_ALGORITHM=your_algorithm
+    ```
 
 ---
 
@@ -56,13 +51,13 @@ Make sure you have the following installed:
 
 1. Start the development server:
    ```bash
-   uvicorn main:app --reload --port 8100
+   poetry run uvicorn app.main:app --reload --port 8100
    ```
 
 
 2. Access the API documentation:
-   - Swagger UI: [http://127.0.0.1:8100/docs](http://127.0.0.1:8100/docs)
-   - ReDoc: [http://127.0.0.1:8100/redoc](http://127.0.0.1:8100/redoc)
+  - Swagger UI: [http://127.0.0.1:8100/docs](http://127.0.0.1:8100/docs)
+  - ReDoc: [http://127.0.0.1:8100/redoc](http://127.0.0.1:8100/redoc)
 
 ---
 
@@ -88,7 +83,7 @@ zoo-animals-service/
 
 Run tests using your preferred testing framework (e.g., `pytest`):
 ```bash
-pytest
+poetry run pytest
 ```
 
 ---

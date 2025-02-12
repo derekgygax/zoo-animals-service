@@ -37,7 +37,7 @@ async def get_specie_identifiers(db:Session = Depends(get_db)):
 async def get_species_bases(db: Session = Depends(get_db)):
 	return species_service.get_all_species_base(db=db)
 
-@router.get("/{specie_id}/base", tags=["sepcie"], response_model=SpecieBase)
+@router.get("/{specie_id}/base", tags=["specie"], response_model=SpecieBase)
 async def get_species_base(
 	specie_id: str,
 	db: Session = Depends(get_db)
